@@ -71,9 +71,9 @@ def callback():
         request=token_request,
         audience=GOOGLE_CLIENT_ID
     )
-
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
+    session["email"]  = id_info.get('email')
     return redirect("/content")
 
 
@@ -81,7 +81,7 @@ def callback():
 @app.route("/content")
 @login_is_required
 def content_area():
-    return f"{type(session)}Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
+    return f"{type(session)}Hello {session['name']}! Your email is {session['email']} <br/> <a href='/logout'><button>Logout</button></a>"
 
 
 # address to clear your session and log out
