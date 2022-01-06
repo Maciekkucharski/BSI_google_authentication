@@ -38,6 +38,12 @@ def login_is_required(function):
     return wrapper
 
 
+# basic site that everybody sees with simple html login button
+@app.route("/")
+def index():
+    return "Hello World <a href='/login'><button>Login</button></a>"
+
+
 @app.route("/login")
 def login():
     # saving the state in order to validate it later
@@ -71,24 +77,18 @@ def callback():
     return redirect("/content")
 
 
-# address to clear your session and log out
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
-
-
-# basic site that everybody sees with simple html login button
-@app.route("/")
-def index():
-    return "Hello World <a href='/login'><button>Login</button></a>"
-
-
 # Our goal page after logging in correctly, with logout possibility
 @app.route("/content")
 @login_is_required
 def content_area():
     return f"{type(session)}Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
+
+
+# address to clear your session and log out
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 if __name__ == "__main__":
